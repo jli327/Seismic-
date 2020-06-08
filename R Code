@@ -15,7 +15,7 @@ normalize <- function(x){return((x-min(x))/(max(x)-min(x)))}
 DN <- as.data.frame(lapply(D[7:20], normalize))
 View(DN)
 
-# lm for general linear regression with a Gaussun Distribution
+# lm for general linear regression with a Gaussian Distribution
 # If you are using glm, distribution need to define as " family = "
 
 m <-lm(mom_1y ~ pressure_o + perosity_c + fault25_a + Depth_rel_+ CumVolCalc, data = DN)
