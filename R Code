@@ -1,0 +1,28 @@
+> library(lattice)
+library(ggplot2)
+library(caret)
+
+X1002Output <- read_excel("E:/Fall2019/chat/chatvolnorm/1002Output.xlsx")
+View(X1002Output)
+D <- data.frame(X1002Output)
+
+# Normalization 
+
+normalize <- function(x){return((x-min(x))/(max(x)-min(x)))}
+
+#Selected the columns
+
+DN <- as.data.frame(lapply(D[7:20], normalize))
+View(DN)
+
+# lm for general linear regression with a Gaussun Distribution
+# If you are using glm, distribution need to define as " family = "
+
+m <-lm(mom_1y ~ pressure_o + perosity_c + fault25_a + Depth_rel_+ CumVolCalc, data = DN)
+summary(m)
+
+#cross validation 
+
+train <-trainControl(method = "repeatedcv", number = 10, repeats = 3)
+trainOut <- train(mom_1y ~ pressure_o + perosity_c + fault25_a + Depth_rel_+ CumVolCalc, data = DN, method = "lm",trControl = train)
+print(trainOut)
